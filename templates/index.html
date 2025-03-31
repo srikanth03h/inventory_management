@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventory Management</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        form {
+            margin-bottom: 15px;
+        }
+        input {
+            margin: 5px;
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .delete-btn {
+            color: red;
+            font-weight: bold;
+            text-decoration: none;
+            margin-left: 10px;
+        }
+        .delete-btn:hover {
+            color: darkred;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+        li {
+            margin: 10px 0;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #f9f9f9;
+        }
+    </style>
+</head>
+<body>
+    <h1>Welcome to the Inventory Management System</h1>
+
+    <h2>Add a New Product</h2>
+    <form action="/add" method="POST">
+        Name: <input type="text" name="name" required>
+        Quantity: <input type="number" name="quantity" required>
+        Price: <input type="number" step="0.01" name="price" required>
+        <button type="submit">Add Product</button>
+    </form>
+
+    <h2>Product List</h2>
+    <ul>
+        {% for product in products %}
+        <li>
+            {{ product.name }} - {{ product.quantity }} available - ${{ product.price }}
+            <form action="/edit/{{ product.id }}" method="POST" style="display:inline;">
+                <input type="text" name="name" value="{{ product.name }}">
+                <input type="number" name="quantity" value="{{ product.quantity }}">
+                <input type="number" step="0.01" name="price" value="{{ product.price }}">
+                <button type="submit">Edit</button>
+            </form>
+            <a href="/delete/{{ product.id }}" style="color:red;">Delete</a>
+        </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
